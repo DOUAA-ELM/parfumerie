@@ -11,14 +11,16 @@ dotenv.config()
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log('connected to db')
+    console.log('connected to db', process.env.MONGODB_URI)
   })
   .catch((err) => {
     console.log(err.message)
   })
 
 const app = express()
+import cors from 'cors'
 
+app.use(cors())
 app.use(express.json()) // analyser les corps des requêtes qui contiennent des données JSON.
 app.use(express.urlencoded({ extended: true })) // analyser les corps des requêtes contenant des données URL-encodées,
 

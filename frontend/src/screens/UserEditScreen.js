@@ -78,7 +78,7 @@ export default function UserEditScreen() {
     try {
       dispatch({ type: 'UPDATE_REQUEST' })
       await axios.put(
-        `/api/users/${userId}`,
+        `http://localhost:5000/api/users/${userId}`,
         { _id: userId, name, email, isAdmin },
         {
           headers: { Authorization: `Bearer ${userInfo.token}` }, // Envoi du token pour l'autorisation

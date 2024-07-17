@@ -1,0 +1,23 @@
+# Utiliser une image de base officielle de Node.js
+FROM node:21
+
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /usr/src/app
+
+# Copier les fichiers package.json et package-lock.json
+COPY package*.json ./
+
+# Installer les dépendances
+RUN npm install
+
+# Copier tout le reste du code source
+COPY . .
+
+# Copy the .env file
+COPY .env .env
+
+# Exposer le port que l'application utilise
+EXPOSE 5000
+
+# Définir la commande à exécuter au démarrage du conteneur
+CMD ["node", "server.js"]

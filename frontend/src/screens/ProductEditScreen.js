@@ -60,9 +60,12 @@ export default function ProductEditScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' })
-        const { data } = await axios.get(`/api/products/${productId}`, {
-          headers: { Authorization: `Bearer ${userInfo.token}` }, // Envoi du token pour l'autorisation
-        })
+        const { data } = await axios.get(
+          `http://localhost:5000/api/products/${productId}`,
+          {
+            headers: { Authorization: `Bearer ${userInfo.token}` }, // Envoi du token pour l'autorisation
+          }
+        )
         setName(data.name)
         setSlug(data.slug)
         setPrice(data.price)
@@ -88,7 +91,7 @@ export default function ProductEditScreen() {
     try {
       dispatch({ type: 'UPDATE_REQUEST' })
       await axios.put(
-        `/api/products/${productId}`,
+        `http://localhost:5000/api/products/${productId}`,
         {
           _id: productId,
           name,

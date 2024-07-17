@@ -30,11 +30,14 @@ export default function SignupScreen() {
       return
     }
     try {
-      const { data } = await axios.post('/api/users/signup', {
-        name,
-        email,
-        password,
-      })
+      const { data } = await axios.post(
+        'http://localhost:5000/api/users/signup',
+        {
+          name,
+          email,
+          password,
+        }
+      )
       ctxDispatch({ type: 'USER_SIGNIN', payload: data })
       localStorage.setItem('userInfo', JSON.stringify(data))
       navigate(redirect || '/')

@@ -18,7 +18,7 @@ const data = {
   products: [
     {
       //_id: '2',
-      name: 'DUO DES FLEURS',
+      name: 'DUO DS FLEURS',
       slug: 'duo-des-fleurs',
       category: 'Femme',
       image: '/images/duo-des-fleurs.webp',
