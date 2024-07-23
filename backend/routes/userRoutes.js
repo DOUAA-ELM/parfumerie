@@ -2,14 +2,15 @@ import express from 'express'
 import bcrypt from 'bcryptjs'
 import expressAsyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
-import { isAuth, isAdmin, generateToken } from '../utils.js'
+import { keycloak } from '../middlewares/keycloak.js'
+import { extractToken } from '../middlewares/extractToken.js'
+import { checkIfAdmin } from '../middlewares/checkifAdmin.js'
 
 const userRouter = express.Router()
 
 userRouter.get(
   '/',
-  isAuth,
-  isAdmin,
+  [keycloak.protect(), extractToken, checkIfAdmin],
   expressAsyncHandler(async (req, res) => {
     const users = await User.find({})
     res.send(users)
@@ -18,8 +19,7 @@ userRouter.get(
 
 userRouter.get(
   '/:id',
-  isAuth,
-  isAdmin,
+  [keycloak.protect(), extractToken, checkIfAdmin],
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
     if (user) {
@@ -32,8 +32,7 @@ userRouter.get(
 
 userRouter.put(
   '/:id',
-  isAuth,
-  isAdmin,
+  [keycloak.protect(), extractToken, checkIfAdmin],
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
     if (user) {
@@ -50,8 +49,7 @@ userRouter.put(
 
 userRouter.delete(
   '/:id',
-  isAuth,
-  isAdmin,
+  [keycloak.protect(), extractToken, checkIfAdmin],
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
     if (user) {
@@ -108,7 +106,7 @@ userRouter.post(
 
 userRouter.put(
   '/profile',
-  isAuth,
+  [keycloak.protect()],
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
     if (user) {

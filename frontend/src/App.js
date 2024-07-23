@@ -128,6 +128,7 @@ function App() {
               <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/" element={<HomeScreen />} />
               <Route path="/admin/products" element={<ProductListScreen />} />
+
               <Route
                 path="/admin/product/:id"
                 element={<ProductEditScreen />}
