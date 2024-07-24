@@ -1,7 +1,11 @@
 import express from 'express'
 import expressAsyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
-import { isAuth, isAdmin } from '../utils.js'
+//import { isAuth, isAdmin } from '../utils.js'
+// Middleware
+import { keycloak } from '../middlewares/keycloak.js'
+import { extractToken } from '../middlewares/extractToken.js'
+import { checkIfAdmin } from '../middlewares/checkifAdmin.js'
 
 const productRouter = express.Router()
 
@@ -12,8 +16,7 @@ productRouter.get('/', async (req, res) => {
 
 productRouter.get(
   '/admin',
-  isAuth,
-  isAdmin,
+  [keycloak.protect(), extractToken, checkIfAdmin],
   expressAsyncHandler(async (req, res) => {
     const products = await Product.find()
     res.send(products)
@@ -22,8 +25,7 @@ productRouter.get(
 
 productRouter.post(
   '/',
-  isAuth,
-  isAdmin,
+  [keycloak.protect(), extractToken, checkIfAdmin],
   expressAsyncHandler(async (req, res) => {
     const newProduct = new Product({
       name: 'sample name ' + Date.now(),
@@ -44,8 +46,7 @@ productRouter.post(
 
 productRouter.put(
   '/:id',
-  isAuth,
-  isAdmin,
+  [keycloak.protect(), extractToken, checkIfAdmin],
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id
     const product = await Product.findById(productId)
@@ -68,8 +69,7 @@ productRouter.put(
 
 productRouter.delete(
   '/:id',
-  isAuth,
-  isAdmin,
+  [keycloak.protect(), extractToken, checkIfAdmin],
   expressAsyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id)
     if (product) {

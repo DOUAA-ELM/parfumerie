@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 import seedRouter from './routes/seedRoutes.js'
 import productRouter from './routes/productRoutes.js'
 import userRouter from './routes/userRoutes.js'
-
+import { keycloak } from './middlewares/keycloak.js'
 dotenv.config()
 
 mongoose
@@ -21,6 +21,7 @@ const app = express()
 import cors from 'cors'
 
 app.use(cors())
+app.use(keycloak.middleware())
 app.use(express.json()) // analyser les corps des requêtes qui contiennent des données JSON.
 app.use(express.urlencoded({ extended: true })) // analyser les corps des requêtes contenant des données URL-encodées,
 
